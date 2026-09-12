@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>حنين ✨</title>
   <style>
     :root {
-      --primary-glow: #f43f5e;
+      --primary-glow: #e11d48;
       --secondary-glow: #8b5cf6;
-      --bg-dark: #090d16;
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --card-border: rgba(255, 255, 255, 0.15);
+      --bg-dark: #07090e;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
       --text-main: #ffffff;
-      --text-sub: #f472b6;
+      --text-sub: #fda4af;
     }
 
     * {
@@ -25,8 +25,8 @@
     body {
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 15% 20%, rgba(244, 63, 94, 0.2) 0%, transparent 45%),
-        radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 45%);
+        radial-gradient(circle at 20% 20%, rgba(225, 29, 72, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.25) 0%, transparent 50%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -39,35 +39,60 @@
     .main-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 28px;
-      padding: 2.5rem 1.8rem;
+      padding: 3rem 2rem;
       max-width: 600px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                  0 0 30px rgba(225, 29, 72, 0.15);
+    }
+
+    .header-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
     }
 
     h1 {
       font-size: 2.2rem;
-      background: linear-gradient(135deg, #fff 20%, var(--text-sub));
+      background: linear-gradient(135deg, #fff 30%, var(--text-sub));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
     }
 
     .subtitle {
       color: #94a3b8;
       font-size: 0.95rem;
-      margin-bottom: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .quote-display {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2.5rem 1.5rem;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .quote-text {
+      font-size: 1.35rem;
+      line-height: 1.8;
+      color: #ffe4e6;
+      font-weight: 500;
+      animation: fadeIn 0.6s ease forwards;
     }
 
     .nav-buttons {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
-      margin-bottom: 1.8rem;
       flex-wrap: wrap;
     }
 
@@ -75,7 +100,7 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      padding: 0.75rem 1.3rem;
+      padding: 0.85rem 1.5rem;
       border-radius: 50px;
       cursor: pointer;
       font-size: 0.95rem;
@@ -84,133 +109,74 @@
     }
 
     .nav-btn:hover {
-      background: rgba(244, 63, 94, 0.25);
+      background: rgba(225, 29, 72, 0.25);
       border-color: var(--primary-glow);
+      transform: translateY(-2px);
     }
 
     .nav-btn.active {
-      background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+      background: linear-gradient(135deg, #e11d48, #8b5cf6);
       border-color: transparent;
-      box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
-    }
-
-    .media-container {
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid var(--card-border);
-      background: #000;
-      min-height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .media-item {
-      display: none;
-      width: 100%;
-      animation: fadeIn 0.5s ease forwards;
-    }
-
-    .media-item.active {
-      display: block;
-    }
-
-    .media-item img, 
-    .media-item video {
-      width: 100%;
-      max-height: 380px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .quote-box {
-      margin-top: 1.5rem;
-      min-height: 85px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .quote-text {
-      font-size: 1.2rem;
-      line-height: 1.7;
-      color: #ffe4e6;
-      animation: fadeIn 0.5s ease forwards;
+      box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .main-card { padding: 2rem 1.2rem; }
+      h1 { font-size: 1.8rem; }
+      .quote-text { font-size: 1.15rem; }
+      .nav-btn { padding: 0.7rem 1.1rem; font-size: 0.88rem; }
     }
   </style>
 </head>
 <body>
 
   <div class="main-card">
-    <h1>سحر عينيكِ ✨</h1>
-    <p class="subtitle">اضغط على الأزرار لاكتشاف تفاصيل الجمال</p>
+    <div class="header-icon">✨</div>
+    <h1>حنين</h1>
+    <p class="subtitle">كلمات صُممت لعينيكِ خصيصاً</p>
 
-    <div class="nav-buttons">
-      <button class="nav-btn active" onclick="showTab(0)">النظرة الأولى 👁️</button>
-      <button class="nav-btn" onclick="showTab(1)">عمق السحر ✨</button>
-      <button class="nav-btn" onclick="showTab(2)">لحظة التناغم 🎥</button>
-    </div>
-
-    <div class="media-container">
-      <!-- الصورة الأولى (يمكنك استبدال الرابط بـ eye1.jpg) -->
-      <div class="media-item active">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800" alt="صورة العيون الأولى">
-      </div>
-      
-      <!-- الصورة الثانية (يمكنك استبدال الرابط بـ eye2.jpg) -->
-      <div class="media-item">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800" alt="صورة العيون الثانية">
-      </div>
-      
-      <!-- الفيديو (استبدل src بـ video.mp4) -->
-      <div class="media-item">
-        <video id="myVideo" controls>
-          <source src="video.mp4" type="video/mp4">
-          المتصفح لا يدعم تشغيل الفيديو.
-        </video>
-      </div>
-    </div>
-
-    <div class="quote-box">
+    <!-- صندوق عرض العبارة -->
+    <div class="quote-display">
       <p class="quote-text" id="quoteText"></p>
+    </div>
+
+    <!-- الأزرار التفاعلية -->
+    <div class="nav-buttons">
+      <button class="nav-btn active" onclick="showQuote(0)">عن العيون 👁️</button>
+      <button class="nav-btn" onclick="showQuote(1)">عن الجمال ✨</button>
+      <button class="nav-btn" onclick="showQuote(2)">سرّك الخاص ❤️</button>
     </div>
   </div>
 
   <script>
+    // العبارات: يمكنك تعديلها أو كتابة أي كلام تحبه بين القوسين
     const quotes = [
       "وفي عينيكِ ألتقي بكونٍ كامل، لا زوايا له ولا نهاية... كأن الشمس تُشرق منهما فقط.",
       "سوادُ عينيكِ يختصر الليل، وبريقهما يروي قصة جمالٍ لم يُكتب مثلها في كُتب الغزل.",
-      "كل حركة في عينيكِ موسيقى هادئة، تُرجع للقلب اتزانه وتلغي كركبة هذا العالم."
+      "كل حركة في عينيكِ موسيقى هادئة، تُرجع للقلب اتزانه وتلغي كركبة هذا العالم... بحبك يا أحلى شيء بحياتي ✨"
     ];
 
-    const mediaItems = document.querySelectorAll('.media-item');
     const buttons = document.querySelectorAll('.nav-btn');
     const quoteText = document.getElementById('quoteText');
-    const video = document.getElementById('myVideo');
 
-    function showTab(index) {
-      if (index !== 2 && !video.paused) {
-        video.pause();
-      }
-
+    function showQuote(index) {
+      // تحديث شكل الأزرار
       buttons.forEach(btn => btn.classList.remove('active'));
       buttons[index].classList.add('active');
 
-      mediaItems.forEach(item => item.classList.remove('active'));
-      mediaItems[index].classList.add('active');
-
+      // إعادة تفعيل التأثير الحركي للنص
       quoteText.style.animation = 'none';
       quoteText.offsetHeight; 
-      quoteText.style.animation = 'fadeIn 0.5s ease forwards';
+      quoteText.style.animation = 'fadeIn 0.6s ease forwards';
       quoteText.innerText = quotes[index];
     }
 
+    // عرض العبارة الأولى عند فتح الصفحة
     quoteText.innerText = quotes[0];
   </script>
 
