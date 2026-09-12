@@ -42,7 +42,7 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-radius: 28px;
-      padding: 3rem 2rem;
+      padding: 2.5rem 1.8rem;
       max-width: 600px;
       width: 100%;
       text-align: center;
@@ -52,7 +52,7 @@
 
     .header-icon {
       font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
 
     h1 {
@@ -60,38 +60,73 @@
       background: linear-gradient(135deg, #fff 30%, var(--text-sub));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .subtitle {
       color: #94a3b8;
       font-size: 0.95rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.8rem;
     }
 
+    /* حاوية الميديا (الصور والفيديو) */
+    .media-container {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.4);
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .media-item {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .media-item.active {
+      display: block;
+    }
+
+    .media-item img, 
+    .media-item video {
+      width: 100%;
+      max-height: 350px;
+      object-fit: cover;
+      display: block;
+      border-radius: 18px;
+    }
+
+    /* صندوق الكلام الحلو */
     .quote-display {
       background: rgba(0, 0, 0, 0.25);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 20px;
-      padding: 2.5rem 1.5rem;
-      min-height: 160px;
+      padding: 1.8rem 1.2rem;
+      min-height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
     }
 
     .quote-text {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       line-height: 1.8;
       color: #ffe4e6;
       font-weight: 500;
       animation: fadeIn 0.6s ease forwards;
     }
 
+    /* الأزرار التفاعلية */
     .nav-buttons {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -100,10 +135,10 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      padding: 0.85rem 1.5rem;
+      padding: 0.8rem 1.4rem;
       border-radius: 50px;
       cursor: pointer;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       transition: all 0.3s ease;
     }
@@ -126,10 +161,10 @@
     }
 
     @media (max-width: 480px) {
-      .main-card { padding: 2rem 1.2rem; }
+      .main-card { padding: 1.8rem 1rem; }
       h1 { font-size: 1.8rem; }
-      .quote-text { font-size: 1.15rem; }
-      .nav-btn { padding: 0.7rem 1.1rem; font-size: 0.88rem; }
+      .quote-text { font-size: 1.1rem; }
+      .nav-btn { padding: 0.65rem 1rem; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -138,45 +173,77 @@
   <div class="main-card">
     <div class="header-icon">✨</div>
     <h1>حنين</h1>
-    <p class="subtitle">كلمات صُممت لعينيكِ خصيصاً</p>
+    <p class="subtitle">كلمات وصور صُممت لعينيكِ خصيصاً</p>
 
-    <!-- صندوق عرض العبارة -->
+    <!-- معرض عرض الصور والفيديو -->
+    <div class="media-container">
+      <!-- الصورة الأولى -->
+      <div class="media-item active">
+        <img src="eye1.jpg" alt="الصورة الأولى">
+      </div>
+      
+      <!-- الصورة الثانية -->
+      <div class="media-item">
+        <img src="eye2.jpg" alt="الصورة الثانية">
+      </div>
+      
+      <!-- الفيديو -->
+      <div class="media-item">
+        <video id="myVideo" controls>
+          <source src="video.mp4" type="video/mp4">
+          المتصفح لا يدعم تشغيل الفيديو.
+        </video>
+      </div>
+    </div>
+
+    <!-- صندوق الكلام الحلو -->
     <div class="quote-display">
       <p class="quote-text" id="quoteText"></p>
     </div>
 
     <!-- الأزرار التفاعلية -->
     <div class="nav-buttons">
-      <button class="nav-btn active" onclick="showQuote(0)">عن العيون 👁️</button>
-      <button class="nav-btn" onclick="showQuote(1)">عن الجمال ✨</button>
-      <button class="nav-btn" onclick="showQuote(2)">سرّك الخاص ❤️</button>
+      <button class="nav-btn active" onclick="showTab(0)">النظرة الأولى 👁️</button>
+      <button class="nav-btn" onclick="showTab(1)">عمق السحر ✨</button>
+      <button class="nav-btn" onclick="showTab(2)">سرّك الخاص 🎥</button>
     </div>
   </div>
 
   <script>
-    // العبارات: يمكنك تعديلها أو كتابة أي كلام تحبه بين القوسين
+    // الكلام الحلو المخصص لكل خيار
     const quotes = [
       "وفي عينيكِ ألتقي بكونٍ كامل، لا زوايا له ولا نهاية... كأن الشمس تُشرق منهما فقط.",
       "سوادُ عينيكِ يختصر الليل، وبريقهما يروي قصة جمالٍ لم يُكتب مثلها في كُتب الغزل.",
       "كل حركة في عينيكِ موسيقى هادئة، تُرجع للقلب اتزانه وتلغي كركبة هذا العالم... بحبك يا أحلى شيء بحياتي ✨"
     ];
 
+    const mediaItems = document.querySelectorAll('.media-item');
     const buttons = document.querySelectorAll('.nav-btn');
     const quoteText = document.getElementById('quoteText');
+    const video = document.getElementById('myVideo');
 
-    function showQuote(index) {
+    function showTab(index) {
+      // إيقاف الفيديو عند الانتقال لزر آخر
+      if (index !== 2 && !video.paused) {
+        video.pause();
+      }
+
       // تحديث شكل الأزرار
       buttons.forEach(btn => btn.classList.remove('active'));
       buttons[index].classList.add('active');
 
-      // إعادة تفعيل التأثير الحركي للنص
+      // تحديث الصورة / الفيديو
+      mediaItems.forEach(item => item.classList.remove('active'));
+      mediaItems[index].classList.add('active');
+
+      // تحديث النص مع تأثير حركة بسيط
       quoteText.style.animation = 'none';
       quoteText.offsetHeight; 
       quoteText.style.animation = 'fadeIn 0.6s ease forwards';
       quoteText.innerText = quotes[index];
     }
 
-    // عرض العبارة الأولى عند فتح الصفحة
+    // إظهار النص الأول فور التحميل
     quoteText.innerText = quotes[0];
   </script>
 
