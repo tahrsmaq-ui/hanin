@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عيناكِ حكاية جمال</title>
+  <title>حنين ✨</title>
   <style>
     :root {
-      --primary-glow: #e11d48;
-      --secondary-glow: #9333ea;
-      --bg-dark: #0a0a12;
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --text-main: #f8fafc;
-      --text-sub: #fda4af;
+      --primary-glow: #f43f5e;
+      --secondary-glow: #8b5cf6;
+      --bg-dark: #090d16;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --text-main: #ffffff;
+      --text-sub: #f472b6;
     }
 
     * {
@@ -25,8 +25,8 @@
     body {
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(circle at 20% 20%, rgba(225, 29, 72, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.15) 0%, transparent 40%);
+        radial-gradient(circle at 15% 20%, rgba(244, 63, 94, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 45%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -36,41 +36,38 @@
       padding: 1.5rem;
     }
 
-    /* Container */
-    .main-container {
+    .main-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 2.5rem 2rem;
-      max-width: 650px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 2.5rem 1.8rem;
+      max-width: 600px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
-                  0 0 30px rgba(225, 29, 72, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     }
 
     h1 {
       font-size: 2.2rem;
-      background: linear-gradient(135deg, #fff 30%, var(--text-sub));
+      background: linear-gradient(135deg, #fff 20%, var(--text-sub));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .subtitle {
       color: #94a3b8;
       font-size: 0.95rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
     }
 
-    /* Navigation Buttons */
     .nav-buttons {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
       flex-wrap: wrap;
     }
 
@@ -78,43 +75,41 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--card-border);
       color: var(--text-main);
-      padding: 0.8rem 1.4rem;
+      padding: 0.75rem 1.3rem;
       border-radius: 50px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
     }
 
     .nav-btn:hover {
-      background: rgba(225, 29, 72, 0.2);
+      background: rgba(244, 63, 94, 0.25);
       border-color: var(--primary-glow);
-      transform: translateY(-2px);
     }
 
     .nav-btn.active {
-      background: linear-gradient(135deg, #e11d48, #9333ea);
+      background: linear-gradient(135deg, #f43f5e, #8b5cf6);
       border-color: transparent;
-      box-shadow: 0 0 20px rgba(225, 29, 72, 0.5);
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
     }
 
-    /* Display Area */
-    .content-box {
-      position: relative;
-      border-radius: 18px;
+    .media-container {
+      border-radius: 20px;
       overflow: hidden;
       border: 1px solid var(--card-border);
       background: #000;
-      min-height: 320px;
+      min-height: 300px;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .media-item {
       display: none;
       width: 100%;
-      animation: fadeIn 0.6s ease forwards;
+      animation: fadeIn 0.5s ease forwards;
     }
 
     .media-item.active {
@@ -124,83 +119,70 @@
     .media-item img, 
     .media-item video {
       width: 100%;
-      max-height: 420px;
+      max-height: 380px;
       object-fit: cover;
       display: block;
     }
 
-    /* Poem & Text Section */
     .quote-box {
-      margin-top: 1.8rem;
-      min-height: 90px;
+      margin-top: 1.5rem;
+      min-height: 85px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 1rem;
     }
 
     .quote-text {
-      font-size: 1.25rem;
-      line-height: 1.8;
+      font-size: 1.2rem;
+      line-height: 1.7;
       color: #ffe4e6;
-      font-weight: 500;
-      animation: fadeIn 0.6s ease forwards;
+      animation: fadeIn 0.5s ease forwards;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.97); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @media (max-width: 480px) {
-      .main-container { padding: 1.5rem 1rem; }
-      h1 { font-size: 1.8rem; }
-      .nav-btn { padding: 0.6rem 1rem; font-size: 0.88rem; }
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <div class="main-container">
+  <div class="main-card">
     <h1>سحر عينيكِ ✨</h1>
     <p class="subtitle">اضغط على الأزرار لاكتشاف تفاصيل الجمال</p>
 
-    <!-- الأزرار التفاعلية -->
     <div class="nav-buttons">
       <button class="nav-btn active" onclick="showTab(0)">النظرة الأولى 👁️</button>
       <button class="nav-btn" onclick="showTab(1)">عمق السحر ✨</button>
       <button class="nav-btn" onclick="showTab(2)">لحظة التناغم 🎥</button>
     </div>
 
-    <!-- منطقة عرض الصور والفيديو -->
-    <div class="content-box">
-      <!-- الصورة الأولى -->
+    <div class="media-container">
+      <!-- الصورة الأولى (يمكنك استبدال الرابط بـ eye1.jpg) -->
       <div class="media-item active">
-        <img src="https://github.com/tahrsmaq-ui/hanin/blob/main/%D9%84%D9%82%D8%B7%D8%A9%20%D8%B4%D8%A7%D8%B4%D8%A9%202026-09-12%20023831.png" alt="صورة العيون الأولى">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800" alt="صورة العيون الأولى">
       </div>
       
-      <!-- الصورة الثانية -->
+      <!-- الصورة الثانية (يمكنك استبدال الرابط بـ eye2.jpg) -->
       <div class="media-item">
-        <img src="https://github.com/tahrsmaq-ui/hanin/blob/main/WhatsApp%20Image%202026-09-13%20at%2012.31.17%20AM.jpeg" alt="صورة العيون الثانية">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800" alt="صورة العيون الثانية">
       </div>
       
-      <!-- الفيديو -->
+      <!-- الفيديو (استبدل src بـ video.mp4) -->
       <div class="media-item">
-        <video id="myVideo" controls poster="video-poster.jpg">
-          <source src="https://github.com/tahrsmaq-ui/hanin/blob/main/WhatsApp%20Video%202026-09-12%20at%202.29.13%20AM.mp4" type="video/mp4">
-          متصفحك لا يدعم تشغيل الفيديو.
+        <video id="myVideo" controls>
+          <source src="video.mp4" type="video/mp4">
+          المتصفح لا يدعم تشغيل الفيديو.
         </video>
       </div>
     </div>
 
-    <!-- نص الغزل المتحرك -->
     <div class="quote-box">
       <p class="quote-text" id="quoteText"></p>
     </div>
   </div>
 
   <script>
-    // العبارات الخاصة بكل زر
     const quotes = [
       "وفي عينيكِ ألتقي بكونٍ كامل، لا زوايا له ولا نهاية... كأن الشمس تُشرق منهما فقط.",
       "سوادُ عينيكِ يختصر الليل، وبريقهما يروي قصة جمالٍ لم يُكتب مثلها في كُتب الغزل.",
@@ -213,27 +195,22 @@
     const video = document.getElementById('myVideo');
 
     function showTab(index) {
-      // إيقاف الفيديو إذا انتقل لزر آخر
       if (index !== 2 && !video.paused) {
         video.pause();
       }
 
-      // تحديث الأزرار
       buttons.forEach(btn => btn.classList.remove('active'));
       buttons[index].classList.add('active');
 
-      // تحديث المحتوى
       mediaItems.forEach(item => item.classList.remove('active'));
       mediaItems[index].classList.add('active');
 
-      // تحديث العبارة
       quoteText.style.animation = 'none';
-      quoteText.offsetHeight; // Reset animation
-      quoteText.style.animation = 'fadeIn 0.6s ease forwards';
+      quoteText.offsetHeight; 
+      quoteText.style.animation = 'fadeIn 0.5s ease forwards';
       quoteText.innerText = quotes[index];
     }
 
-    // عرض العبارة الأولى عند التحميل
     quoteText.innerText = quotes[0];
   </script>
 
