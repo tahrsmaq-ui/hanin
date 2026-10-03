@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مطعم الشاورما الـ 3D</title>
+  <title>3D Burger Scroll</title>
 
   <!-- استيراد مكتبات Three.js و GSAP مع ScrollTrigger عبر CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -18,9 +18,7 @@
     }
 
     body {
-      background-color: #0f0c08;
-      color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0d0d;
       overflow-x: hidden;
     }
 
@@ -35,38 +33,10 @@
       pointer-events: none;
     }
 
-    /* أقسام التمرير (Scroll) */
+    /* أقسام شفافة للتمرير (بدون أي نصوص أو كتابات) */
     .section {
-      position: relative;
-      z-index: 2;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .card {
-      background: rgba(30, 20, 10, 0.45);
-      backdrop-filter: blur(12px);
-      padding: 35px 55px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 150, 50, 0.2);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    h1 {
-      font-size: 3.5rem;
-      margin-bottom: 12px;
-      color: #ffb703;
-      text-shadow: 0 0 25px rgba(255, 183, 3, 0.4);
-    }
-
-    p {
-      font-size: 1.4rem;
-      color: #e0d0c0;
+      width: 100%;
     }
   </style>
 </head>
@@ -74,29 +44,10 @@
 
   <canvas id="webgl"></canvas>
 
-  <!-- القسم الأول -->
-  <section class="section hero">
-    <div class="card">
-      <h1>شاورما 2026 🌯</h1>
-      <p>قم بالتمرير للأسفل لرؤية السندويشة ثلاثية الأبعاد تفاعلياً</p>
-    </div>
-  </section>
-
-  <!-- القسم الثاني -->
-  <section class="section details">
-    <div class="card">
-      <h1>محمرة ومقمرة ✨</h1>
-      <p>دوران وحركة السندويشة أثناء التمرير باستخدام Three.js & GSAP</p>
-    </div>
-  </section>
-
-  <!-- القسم الثالث -->
-  <section class="section footer">
-    <div class="card">
-      <h1>جاهزة للطلب! 🛵</h1>
-      <p>يمكن استبدال هذا المجسم بموديل محشو حقيقي (.glb / .gltf)</p>
-    </div>
-  </section>
+  <!-- أقسام فارغة لتمكين ميزة التمرير (Scroll) -->
+  <section class="section section-1"></section>
+  <section class="section section-2"></section>
+  <section class="section section-3"></section>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
@@ -104,7 +55,7 @@
     // 1. المشهد والكاميرا
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 6;
+    camera.position.z = 5.5;
 
     // 2. الـ Renderer
     const canvas = document.querySelector('#webgl');
@@ -112,69 +63,88 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 3. بناء مجسم "صندويشة الشاورما" (أسطوانة مائلة ومنحنية الأطراف)
-    const shawarmaGroup = new THREE.Group();
+    // 3. بناء مجسم البرغر (Burger Assembly)
+    const burgerGroup = new THREE.Group();
 
-    // جسم السندويشة (الخبز الملفوف)
-    const geometry = new THREE.CylinderGeometry(0.8, 0.75, 3.8, 32);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0xd48c46, // لون خبز الصاج المحمر
-      roughness: 0.6,
-      metalness: 0.1
-    });
-    const shawarmaMesh = new THREE.Mesh(geometry, material);
-    shawarmaGroup.add(shawarmaMesh);
+    // أ. الخبز العلوي (Top Bun)
+    const topBunGeo = new THREE.SphereGeometry(1.2, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+    const bunMat = new THREE.MeshStandardMaterial({ color: 0xd48c46, roughness: 0.5 });
+    const topBun = new THREE.Mesh(topBunGeo, bunMat);
+    topBun.position.y = 0.6;
+    burgerGroup.add(topBun);
 
-    // إضافة خطوط التحمير والتأميرة على الخبز
-    const stripeGeo = new THREE.CylinderGeometry(0.81, 0.76, 3.81, 32);
-    const stripeMat = new THREE.MeshBasicMaterial({
-      color: 0x5c2c16, // لون حروق الشواء
-      wireframe: true
-    });
-    const stripes = new THREE.Mesh(stripeGeo, stripeMat);
-    shawarmaGroup.add(stripes);
+    // ب. شريحة الجبن (Cheese)
+    const cheeseGeo = new THREE.BoxGeometry(1.8, 0.05, 1.8);
+    const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.3 });
+    const cheese = new THREE.Mesh(cheeseGeo, cheeseMat);
+    cheese.position.y = 0.45;
+    cheese.rotation.y = Math.PI / 4;
+    burgerGroup.add(cheese);
 
-    // تدوير المجموع لتظهر السندويشة مائلة بشكل جذاب
-    shawarmaGroup.rotation.z = Math.PI / 3;
-    shawarmaGroup.rotation.x = 0.5;
-    scene.add(shawarmaGroup);
+    // ج. شريحة اللحم (Patty)
+    const pattyGeo = new THREE.CylinderGeometry(1.15, 1.15, 0.35, 32);
+    const pattyMat = new THREE.MeshStandardMaterial({ color: 0x3d2314, roughness: 0.8 });
+    const patty = new THREE.Mesh(pattyGeo, pattyMat);
+    patty.position.y = 0.25;
+    burgerGroup.add(patty);
 
-    // 4. إضاءة احترافية (تعطي دفء للشاورما)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    // د. ورقة الخس (Lettuce)
+    const lettuceGeo = new THREE.CylinderGeometry(1.3, 1.25, 0.08, 16);
+    const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x588157, roughness: 0.6 });
+    const lettuce = new THREE.Mesh(lettuceGeo, lettuceMat);
+    lettuce.position.y = 0.02;
+    burgerGroup.add(lettuce);
+
+    // هـ. الخبز السفلي (Bottom Bun)
+    const bottomBunGeo = new THREE.CylinderGeometry(1.1, 1.05, 0.35, 32);
+    const bottomBun = new THREE.Mesh(bottomBunGeo, bunMat);
+    bottomBun.position.y = -0.2;
+    burgerGroup.add(bottomBun);
+
+    // إمالة البرغر قليلاً لزاوية رؤية جذابة
+    burgerGroup.rotation.x = 0.3;
+    burgerGroup.rotation.z = -0.1;
+    scene.add(burgerGroup);
+
+    // 4. إضاءة المشهد
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const mainLight = new THREE.DirectionalLight(0xffaa55, 1.8);
-    mainLight.position.set(5, 5, 5);
+    const mainLight = new THREE.DirectionalLight(0xfffaed, 1.5);
+    mainLight.position.set(5, 8, 5);
     scene.add(mainLight);
 
-    const backLight = new THREE.PointLight(0xff5500, 1.5);
-    backLight.position.set(-5, -5, -2);
+    const backLight = new THREE.PointLight(0xffa500, 1.2);
+    backLight.position.set(-5, -3, -2);
     scene.add(backLight);
 
-    // 5. ربط حركات السندويشة بالتمرير (ScrollTrigger)
+    // 5. حركات التمرير (GSAP ScrollTrigger)
+    
+    // الحركة عند التمرير للقسم الثاني
     gsap.timeline({
       scrollTrigger: {
-        trigger: ".details",
+        trigger: ".section-2",
         start: "top bottom",
         end: "top top",
         scrub: 1,
       }
     })
-    .to(shawarmaGroup.rotation, { x: Math.PI * 1.2, y: Math.PI * 1.5 })
-    .to(shawarmaGroup.position, { x: -2.2, z: 1 }, "<");
+    .to(burgerGroup.rotation, { x: Math.PI * 0.8, y: Math.PI * 1.5 })
+    .to(burgerGroup.position, { x: -2, z: 1 }, "<");
 
+    // الحركة عند التمرير للقسم الثالث
     gsap.timeline({
       scrollTrigger: {
-        trigger: ".footer",
+        trigger: ".section-3",
         start: "top bottom",
         end: "top top",
         scrub: 1,
       }
     })
-    .to(shawarmaGroup.rotation, { x: Math.PI * 2, y: Math.PI * 3 })
-    .to(shawarmaGroup.position, { x: 2, z: -0.5 }, "<");
+    .to(burgerGroup.rotation, { x: Math.PI * 1.8, y: Math.PI * 3 })
+    .to(burgerGroup.position, { x: 1.8, z: -0.5 }, "<");
 
-    // 6. التجاوب مع مقاسات الشاشة
+    // 6. التعامل مع تغيير مقاس الشاشة
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -184,7 +154,7 @@
     // 7. حلقة العرض (Animation Loop)
     function animate() {
       requestAnimationFrame(animate);
-      shawarmaGroup.rotation.y += 0.005; // دوران خفيف مستمر
+      burgerGroup.rotation.y += 0.004; // دوران خفيف مستمر
       renderer.render(scene, camera);
     }
     animate();
