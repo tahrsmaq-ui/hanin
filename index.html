@@ -3,127 +3,562 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعمنا المميز</title>
+    <title>مطعم الزين | التجربة الفاخرة</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Readex+Pro:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* إعداد التمرير السلس */
-        html {
-            scroll-behavior: smooth;
-            font-family: Arial, sans-serif;
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent: #f59e0b;
+            --accent-glow: rgba(245, 158, 11, 0.35);
+            --primary: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --blur: blur(16px);
+            --radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
+            font-family: 'Readex Pro', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* القائمة العلوية */
-        nav {
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 120px;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Effect */
+        .ambient-glow {
             position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #333;
-            padding: 15px 0;
-            text-align: center;
-            z-index: 1000;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
+            top: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* الهيدر الرئيسي */
+        /* Header Navigation */
         header {
-            margin-top: 50px;
-            padding: 80px 20px;
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1200x400');
-            background-size: cover;
-            color: white;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* الأقسام General Styling */
-        section {
-            padding: 60px 20px;
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            color: var(--accent);
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .currency-switch {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+            backdrop-filter: var(--blur);
+        }
+
+        /* Hero Banner */
+        .hero {
+            position: relative;
+            padding: 60px 6% 40px;
             text-align: center;
-            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 30%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 500px;
+            margin: auto;
+            font-weight: 300;
+        }
+
+        /* Categories Bar */
+        .categories {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 6% 20px;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar { display: none; }
+
+        .cat-chip {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 30px;
+            white-space: nowrap;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cat-chip.active, .cat-chip:hover {
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Menu Grid */
+        section {
+            padding: 20px 6%;
+            max-width: 1200px;
             margin: auto;
         }
 
-        /* قسم المنيو */
-        .menu-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 20px;
-        }
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* الأزرار */
-        .btn-whatsapp {
-            display: inline-block;
-            background-color: #25D366;
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 15px;
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .add-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-btn:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Section About (#About) */
+        .about-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-top: 40px;
+            backdrop-filter: var(--blur);
+        }
+
+        .about-card h2 {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .about-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Floating Order Bar */
+        .cart-bar {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            width: calc(100% - 12%);
+            max-width: 500px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 2000;
+            transition: var(--transition);
+        }
+
+        .cart-bar.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .cart-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cart-count {
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .btn-checkout {
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            transition: var(--transition);
+        }
+
+        .btn-checkout:hover {
+            background: #16a34a;
+        }
+
+        /* Shimmer Loading Animation */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- القائمة العلوية للتنقل -->
-    <nav>
-        <a href="#Home">الرئيسية</a>
-        <a href="#Menu">المنيو</a>
-        <a href="#About">عن المطعم</a>
-        <a href="#Contact">تواصل معنا</a>
-    </nav>
+    <div class="ambient-glow"></div>
 
-    <!-- قسم الرئيسية -->
-    <header id="Home">
-        <h1>مرحباً بكم في مطعمنا</h1>
-        <p>أطيب الوجبات الشرقية والغربية</p>
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-utensils"></i> مطعم الزين
+        </div>
+        <div class="nav-actions">
+            <a href="#About" class="nav-link">عن المطعم</a>
+            <select class="currency-switch" id="currencySelect" onchange="switchCurrency()">
+                <option value="SYP">SYP (ل.س)</option>
+                <option value="TRY">TRY (₺)</option>
+            </select>
+        </div>
     </header>
 
-    <!-- قسم عن المطعم (مثل رابط #About) -->
-    <section id="About">
-        <h2>عن المطعم</h2>
-        <p>نحن نقدم أفضل الوجبات بأسعار ممتازة وخبرة تمتد لسنوات في تقديم الطعام الطازج يومياً.</p>
-    </section>
+    <div class="hero">
+        <h1>قائمة الطعام الفاخرة</h1>
+        <p>تذوق أفضل الوجبات المحضرة بأعلى معايير الجودة</p>
+    </div>
 
-    <!-- قسم المنيو -->
-    <section id="Menu">
-        <h2>منيو وجباتنا</h2>
-        <div class="menu-grid">
-            <div class="card">
-                <h3>وجبة شاورما</h3>
-                <p>السعر: 50 ل.س</p>
-            </div>
-            <div class="card">
-                <h3>برغر لحم</h3>
-                <p>السعر: 70 ل.س</p>
-            </div>
-            <div class="card">
-                <h3>بيتزا مشكل</h3>
-                <p>السعر: 90 ل.س</p>
-            </div>
+    <!-- التصنيفات -->
+    <div class="categories" id="categoryContainer">
+        <button class="cat-chip active" onclick="filterCategory('all')">الكل</button>
+        <button class="cat-chip" onclick="filterCategory('شاورما')">شاورما</button>
+        <button class="cat-chip" onclick="filterCategory('برغر')">برغر</button>
+        <button class="cat-chip" onclick="filterCategory('بيتزا')">بيتزا</button>
+        <button class="cat-chip" onclick="filterCategory('مشروبات')">مشروبات</button>
+    </div>
+
+    <!-- شبكة المنيو -->
+    <section>
+        <div class="grid" id="menuGrid">
+            <!-- Shimmer Effect Skeleton loader -->
+            <div class="card shimmer" style="height: 320px;"></div>
+            <div class="card shimmer" style="height: 320px;"></div>
+            <div class="card shimmer" style="height: 320px;"></div>
+        </div>
+
+        <!-- قسم عن المطعم المعرف بـ #About -->
+        <div class="about-card" id="About">
+            <h2>عن مطعم الزين</h2>
+            <p>نحن نقدم تجربة طهي رفيعة المستوى تجمع بين الأصالة والابتكار. يتم اختيار كافة المكونات بعناية فائقة وضمان وصول الطلبات طازجة وساخنة مع إمكانية التخصيص والمتابعة المباشرة عبر الواتساب.</p>
         </div>
     </section>
 
-    <!-- قسم التواصل للطلب -->
-    <section id="Contact">
-        <h2>للطلب والاستفسار</h2>
-        <p>يمكنك الطلب مباشرة عبر الواتساب:</p>
-        <!-- استبدل الرقم برقمك -->
-        <a href="https://wa.me/1234567890?text=أريد%20الطلب%20من%20المطعم" class="btn-whatsapp" target="_blank">طلب عبر الواتساب</a>
-    </section>
+    <!-- شريط الطلب العائم -->
+    <div class="cart-bar" id="cartBar">
+        <div class="cart-details">
+            <div class="cart-count" id="cartCount">0</div>
+            <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">المجموع الكلي</div>
+                <div style="font-weight: 700; color: var(--accent);" id="cartTotal">0</div>
+            </div>
+        </div>
+        <button class="btn-checkout" onclick="sendOrder()">
+            <i class="fa-brands fa-whatsapp"></i> تأكيد الطلب
+        </button>
+    </div>
 
+    <script>
+        // رابط الـ API الخاص بـ Google Apps Script الذي سيربط مع Google Sheets
+        const GOOGLE_SHEETS_API = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+        let menuData = [];
+        let cart = {};
+        let currentCurrency = 'SYP';
+        let currentCategory = 'all';
+
+        // بيانات احتياطية تعمل فوراً في حال عدم ربط Google Sheets بعد
+        const fallbackData = [
+            { id: 1, name: 'شاورما عربي دبل', category: 'شاورما', priceSYP: 45000, priceTRY: 110, desc: 'قطع شاورما مع كريم ثوم وبطاطا مقرمشة ومخلل', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500' },
+            { id: 2, name: 'برغر كلاسيك تشيدر', category: 'برغر', priceSYP: 65000, priceTRY: 160, desc: 'لحم أنغوس فاخر مع جبنة تشيدر ذائبة وصوص الزين', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500' },
+            { id: 3, name: 'بيتزا نابولي ببروني', category: 'بيتزا', priceSYP: 85000, priceTRY: 210, desc: 'صلصة إيطالية، جبنة موزاريللا طازجة شرائح ببروني', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500' }
+        ];
+
+        async function fetchMenu() {
+            try {
+                if(GOOGLE_SHEETS_API !== "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL") {
+                    const response = await fetch(GOOGLE_SHEETS_API);
+                    menuData = await response.json();
+                } else {
+                    menuData = fallbackData;
+                }
+            } catch (err) {
+                console.log("استخدام البيانات المحلية الاحتياطية");
+                menuData = fallbackData;
+            }
+            renderMenu();
+        }
+
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+
+            const filtered = currentCategory === 'all' 
+                ? menuData 
+                : menuData.filter(i => i.category === currentCategory);
+
+            filtered.forEach(item => {
+                const price = currentCurrency === 'SYP' 
+                    ? `${item.priceSYP.toLocaleString()} ل.س` 
+                    : `${item.priceTRY} ₺`;
+
+                grid.innerHTML += `
+                    <div class="card">
+                        <div class="card-img-wrapper">
+                            <img src="${item.img}" class="card-img" alt="${item.name}">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">${item.name}</div>
+                            <div class="card-desc">${item.desc}</div>
+                            <div class="card-footer">
+                                <div class="price">${price}</div>
+                                <button class="add-btn" onclick="addToCart(${item.id})">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-chip').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderMenu();
+        }
+
+        function switchCurrency() {
+            currentCurrency = document.getElementById('currencySelect').value;
+            renderMenu();
+            updateCart();
+        }
+
+        function addToCart(id) {
+            cart[id] = (cart[id] || 0) + 1;
+            updateCart();
+        }
+
+        function updateCart() {
+            let count = 0;
+            let total = 0;
+
+            for (let id in cart) {
+                const item = menuData.find(i => i.id == id);
+                if(item) {
+                    count += cart[id];
+                    total += cart[id] * (currentCurrency === 'SYP' ? item.priceSYP : item.priceTRY);
+                }
+            }
+
+            const cartBar = document.getElementById('cartBar');
+            if (count > 0) cartBar.classList.add('visible');
+            else cartBar.classList.remove('visible');
+
+            document.getElementById('cartCount').innerText = count;
+            document.getElementById('cartTotal').innerText = currentCurrency === 'SYP' 
+                ? `${total.toLocaleString()} ل.س` 
+                : `${total} ₺`;
+        }
+
+        function sendOrder() {
+            let text = "🛒 *طلب جديد من الموقع - مطعم الزين*\n\n";
+            let total = 0;
+
+            for (let id in cart) {
+                const item = menuData.find(i => i.id == id);
+                const price = currentCurrency === 'SYP' ? item.priceSYP : item.priceTRY;
+                const sub = cart[id] * price;
+                total += sub;
+                text += `• ${item.name} × ${cart[id]} = ${sub.toLocaleString()}\n`;
+            }
+
+            const formattedTotal = currentCurrency === 'SYP' ? `${total.toLocaleString()} ل.س` : `${total} ₺`;
+            text += `\n💰 *الإجمالي:* ${formattedTotal}`;
+
+            const phone = "963932510043";
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        fetchMenu();
+    </script>
 </body>
 </html>
