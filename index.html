@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Burger Scroll</title>
+  <title>3D Burger Exploded Scroll</title>
 
   <!-- استيراد مكتبات Three.js و GSAP مع ScrollTrigger عبر CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -22,7 +22,7 @@
       overflow-x: hidden;
     }
 
-    /* الـ Canvas لرسوميات 3D ثابت بالخلفية */
+    /* الـ Canvas ثابت في الخلفية */
     #webgl {
       position: fixed;
       top: 0;
@@ -33,7 +33,7 @@
       pointer-events: none;
     }
 
-    /* أقسام شفافة للتمرير (بدون أي نصوص أو كتابات) */
+    /* أقسام شفافة للتمرير */
     .section {
       height: 100vh;
       width: 100%;
@@ -44,69 +44,74 @@
 
   <canvas id="webgl"></canvas>
 
-  <!-- أقسام فارغة لتمكين ميزة التمرير (Scroll) -->
+  <!-- أقسام فارغة للتمرير (من الوضع المتفكك إلى التجمع الكامل) -->
   <section class="section section-1"></section>
   <section class="section section-2"></section>
-  <section class="section section-3"></section>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // 1. المشهد والكاميرا
+    // 1. إعداد المشهد والكاميرا
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5.5;
+    camera.position.z = 6;
 
-    // 2. الـ Renderer
+    // 2. إعداد الـ Renderer
     const canvas = document.querySelector('#webgl');
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 3. بناء مجسم البرغر (Burger Assembly)
+    // 3. إنشاء المكونات كمشهد مجسّم (Burger Group)
     const burgerGroup = new THREE.Group();
+
+    // المواد (Materials)
+    const bunMat = new THREE.MeshStandardMaterial({ color: 0xd48c46, roughness: 0.5 });
+    const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.3 });
+    const pattyMat = new THREE.MeshStandardMaterial({ color: 0x3d2314, roughness: 0.8 });
+    const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x588157, roughness: 0.6 });
 
     // أ. الخبز العلوي (Top Bun)
     const topBunGeo = new THREE.SphereGeometry(1.2, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-    const bunMat = new THREE.MeshStandardMaterial({ color: 0xd48c46, roughness: 0.5 });
     const topBun = new THREE.Mesh(topBunGeo, bunMat);
-    topBun.position.y = 0.6;
-    burgerGroup.add(topBun);
 
     // ب. شريحة الجبن (Cheese)
     const cheeseGeo = new THREE.BoxGeometry(1.8, 0.05, 1.8);
-    const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xffb703, roughness: 0.3 });
     const cheese = new THREE.Mesh(cheeseGeo, cheeseMat);
-    cheese.position.y = 0.45;
     cheese.rotation.y = Math.PI / 4;
-    burgerGroup.add(cheese);
 
     // ج. شريحة اللحم (Patty)
     const pattyGeo = new THREE.CylinderGeometry(1.15, 1.15, 0.35, 32);
-    const pattyMat = new THREE.MeshStandardMaterial({ color: 0x3d2314, roughness: 0.8 });
     const patty = new THREE.Mesh(pattyGeo, pattyMat);
-    patty.position.y = 0.25;
-    burgerGroup.add(patty);
 
     // د. ورقة الخس (Lettuce)
     const lettuceGeo = new THREE.CylinderGeometry(1.3, 1.25, 0.08, 16);
-    const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x588157, roughness: 0.6 });
     const lettuce = new THREE.Mesh(lettuceGeo, lettuceMat);
-    lettuce.position.y = 0.02;
-    burgerGroup.add(lettuce);
 
     // هـ. الخبز السفلي (Bottom Bun)
     const bottomBunGeo = new THREE.CylinderGeometry(1.1, 1.05, 0.35, 32);
     const bottomBun = new THREE.Mesh(bottomBunGeo, bunMat);
-    bottomBun.position.y = -0.2;
+
+    // إضافة جميع الأجزاء للمجموعة
+    burgerGroup.add(topBun);
+    burgerGroup.add(cheese);
+    burgerGroup.add(patty);
+    burgerGroup.add(lettuce);
     burgerGroup.add(bottomBun);
 
-    // إمالة البرغر قليلاً لزاوية رؤية جذابة
-    burgerGroup.rotation.x = 0.3;
-    burgerGroup.rotation.z = -0.1;
+    // إمالة المجموعة ككل لإعطاء زاوية رؤية جذابة
+    burgerGroup.rotation.x = 0.35;
+    burgerGroup.rotation.z = -0.15;
     scene.add(burgerGroup);
 
-    // 4. إضاءة المشهد
+    // 4. تعيين المواقع الابتدائية (الوضع المتفكك / Exploded State)
+    topBun.position.y = 3.2;      // طائر للفيض في الأعلى
+    cheese.position.y = 1.8;
+    patty.position.y = 0.4;
+    lettuce.position.y = -1.0;
+    bottomBun.position.y = -2.5;  // هابط للأسفل
+
+    // 5. إضاءة المشهد
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
@@ -118,43 +123,36 @@
     backLight.position.set(-5, -3, -2);
     scene.add(backLight);
 
-    // 5. حركات التمرير (GSAP ScrollTrigger)
-    
-    // الحركة عند التمرير للقسم الثاني
-    gsap.timeline({
+    // 6. تحريك تجميع القطع مع الـ Scroll (GSAP ScrollTrigger)
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".section-2",
         start: "top bottom",
         end: "top top",
-        scrub: 1,
+        scrub: 1.2, // تحريك متناسب بسلاسة مع التمرير
       }
-    })
-    .to(burgerGroup.rotation, { x: Math.PI * 0.8, y: Math.PI * 1.5 })
-    .to(burgerGroup.position, { x: -2, z: 1 }, "<");
+    });
 
-    // الحركة عند التمرير للقسم الثالث
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: ".section-3",
-        start: "top bottom",
-        end: "top top",
-        scrub: 1,
-      }
-    })
-    .to(burgerGroup.rotation, { x: Math.PI * 1.8, y: Math.PI * 3 })
-    .to(burgerGroup.position, { x: 1.8, z: -0.5 }, "<");
+    // تقريب جميع القطع إلى أماكنها المحددة لتشكل البرغر الكامل
+    tl.to(topBun.position, { y: 0.6 }, 0)
+      .to(cheese.position, { y: 0.45 }, 0)
+      .to(patty.position, { y: 0.25 }, 0)
+      .to(lettuce.position, { y: 0.02 }, 0)
+      .to(bottomBun.position, { y: -0.2 }, 0)
+      // تدوير البرغر أثناء التجميع لإضفاء حركة سينمائية
+      .to(burgerGroup.rotation, { y: Math.PI * 2, x: 0.2 }, 0);
 
-    // 6. التعامل مع تغيير مقاس الشاشة
+    // 7. التجاوب مع حجم الشاشة
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // 7. حلقة العرض (Animation Loop)
+    // 8. حلقة العرض (Animation Loop)
     function animate() {
       requestAnimationFrame(animate);
-      burgerGroup.rotation.y += 0.004; // دوران خفيف مستمر
+      burgerGroup.rotation.y += 0.003; // دوران خفيف ومستمر
       renderer.render(scene, camera);
     }
     animate();
